@@ -30,7 +30,12 @@ async function seedUsers() {
 }
 
 async function seedInvoices() {
-  await sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+  try {
+    await sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+  } catch (error) {
+    console.error('Failed to create UUID extension:', error);
+    throw error;
+  }
 
   await sql`
     CREATE TABLE IF NOT EXISTS invoices (
